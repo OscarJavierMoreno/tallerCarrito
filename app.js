@@ -100,11 +100,9 @@ function addCartButtonWorks(e)
         quantity++;
         counterElement.textContent = quantity;
 
-        // activar botón "-"
+        //Activando el botón "-"
         btnMinus.disabled = false;
 
-        // actualizar contadores globales
-        amountProducts++;
         amountPrices += price;
 
         updateUI();
@@ -189,7 +187,6 @@ function handleQuantity(e)
     if (button.textContent === "+")
     {
         quantity++;
-        amountProducts++;
         amountPrices += price;
     }
 
@@ -199,7 +196,6 @@ function handleQuantity(e)
         if (quantity > 1)
         {
             quantity--;
-            amountProducts--;
             amountPrices -= price;
         }
     }
