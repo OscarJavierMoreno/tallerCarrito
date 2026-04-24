@@ -6,8 +6,19 @@ const buttonsAddCart = document.querySelectorAll(".product__button");
 //Contenedor del carrito
 const listAddProducts = document.getElementById("listAddProducts");
 
+//Captando el contador del carrito
+const cartCounter = document.getElementById("cartCounter");
 
-//====== HELPERS ======
+//Captando el contador del carrito
+const totalCounter = document.getElementById("totalCounter");
+
+
+//====== VARIABLES ======
+let amountProducts = 0;
+let amountPrices = 0;
+
+
+//====== CREANDO ELEMENTO DINAMICO ======
 function createElement(tag, className, text)
 {
     const el = document.createElement(tag);
@@ -21,8 +32,6 @@ function createElement(tag, className, text)
     return el;
 }
 
-
-//====== CREAR ITEM DEL CARRITO ======
 function createCartItem(icon, title, price)
 {
     const li = createElement("li", "add__container");
@@ -61,24 +70,35 @@ function createCartItem(icon, title, price)
     return li;
 }
 
-
-//====== FUNCION PRINCIPAL ======
 function addCartButtonWorks(e)
 {
     const card = e.target.closest(".product__card");
 
     const icon = card.querySelector(".product__product").textContent;
     const title = card.querySelector(".product__info-title").textContent;
-    const price = card.querySelector(".product__price").textContent;
+    const priceText = card.querySelector(".product__price").textContent;
+    const price = parseFloat(priceText.replace("$", ""));
 
-    const cartItem = createCartItem(icon, title, price);
+    const cartItem = createCartItem(icon, title, priceText);
 
     listAddProducts.appendChild(cartItem);
+
+    updateCounters(price);    
 }
 
 
-//====== EVENTOS ======
 buttonsAddCart.forEach((button) =>
 {
     button.addEventListener("click", addCartButtonWorks);
 });
+
+
+//====== FUNCIONAMIENTO CONTADORES ======
+function updateCounters(price)
+{
+    amountProducts++;
+    amountPrices += price;
+
+    cartCounter.textContent = amountProducts;
+    totalCounter.textContent = amountPrices;
+}

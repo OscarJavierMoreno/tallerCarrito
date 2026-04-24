@@ -225,12 +225,15 @@
         <!-- CARRITO DE COMPRAS -->
         <div class="cart">
 
-            <h2 class="products__title">🛒 CARRITO <span class="cart__counter">0</span></h2>
+            <h2 class="products__title">🛒 CARRITO <span class="cart__counter" id="cartCounter">0</span></h2>
 
             <div class="dividing-line"></div>
 
-            <!-- Productos agregados al carrito -->
-            <ul class="add" id="listAddProducts">
+            <div class="cart__content">
+                
+                <!-- Productos agregados al carrito -->
+                <ul class="add" id="listAddProducts">
+            </div>
 
                 <!-- <li class="add__container">
 
@@ -261,7 +264,8 @@
 
             <div class="total">
                 <p class="total__total">Total:</p>
-                <p class="total__total total--price-color">$ <span>0</span>
+                <p class="total__total total--price-color">$ 
+                    <span id="totalCounter">0</span>
                 </p>
             </div>
 

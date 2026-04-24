@@ -176,10 +176,15 @@ body {
 /* --------- CARRITO DE COMPRAS ---------- */
 .cart {
     width: 30%;
-    height: 90vh;
+    height: 100vh;
     padding: 25px;
     position: sticky;
     top: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.cart__content {
     overflow-y: auto;
 }
 
@@ -255,6 +260,7 @@ body {
     list-style: none;
     display: flex;
     flex-direction: column;
+    padding: 5px;
 }
 
 .add__container {
@@ -265,7 +271,7 @@ body {
     padding: 8px;
     margin-top: 30px;
     border-radius: 20px;
-    box-shadow: 0 0 15px 0 #af7eff;
+    box-shadow: 0 0 7px 0 #a268ff;
 }
 
 .add__item {
@@ -392,8 +398,8 @@ body {
 
 /* -------- DEMAS CLASES --------- */
 .dividing-line {
-    background-color: #9f9f9f;
-    height: 1.5px;
+    background-color: #b0b0b0;
+    height: 1.6px;
     border-radius: 3px;
     margin-top: 20px;
 }
