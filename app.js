@@ -154,7 +154,7 @@ function deleteProduct(e)
     li.remove();
 
     //Restando correctamente
-    amountProducts -= quantity;
+    amountProducts--;
     amountPrices -= price * quantity;
 
     updateUI();
@@ -248,7 +248,7 @@ function handleCompletePurchase()
 
     if (!confirmPurchase) return;
 
-    alert("✅ Compra finalizada con éxito");
+    alert("Compra finalizada con éxito");
 
     //Limpiando el carrito
     listAddProducts.innerHTML = "";
