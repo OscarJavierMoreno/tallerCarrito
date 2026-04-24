@@ -9,6 +9,9 @@ const listAddProducts = document.getElementById("listAddProducts");
 //Captando el contador del carrito
 const cartCounter = document.getElementById("cartCounter");
 
+//Captando el contador del carrito del nav bar
+const cartCounterNavBar = document.getElementById("cartCounterNavBar");
+
 //Captando el contador del carrito
 const totalCounter = document.getElementById("totalCounter");
 
@@ -21,15 +24,12 @@ let amountPrices = 0;
 //====== CREANDO ELEMENTO DINAMICO ======
 function createElement(tag, className, text)
 {
-    const el = document.createElement(tag);
-    el.classList.add(className);
+    const element = document.createElement(tag);
+    element.classList.add(className);
 
-    if (text)
-    {
-        el.textContent = text;
-    }
+    if (text) element.textContent = text;
 
-    return el;
+    return element;
 }
 
 function createCartItem(icon, title, price)
@@ -58,7 +58,7 @@ function createCartItem(icon, title, price)
     trashIcon.classList.add("fa-solid", "fa-trash-can");
 
 
-    // Armar estructura
+    //Armando la estructura
     btnDelete.appendChild(trashIcon);
 
     quantities.append(btnMinus, counter, btnPlus);
@@ -100,5 +100,42 @@ function updateCounters(price)
     amountPrices += price;
 
     cartCounter.textContent = amountProducts;
-    totalCounter.textContent = amountPrices;
+    cartCounterNavBar.textContent = amountProducts;
+    totalCounter.textContent = amountPrices.toLocaleString("es-CO");
 }
+
+
+//====== FUNCIONAMIENTO BOTONES DE ELIMINAR ======
+function deleteProduct(e)
+{
+    const li = e.target.closest(".add__container");
+
+    //Capturando precio del producto
+    const priceText = li.querySelector(".add__price").textContent;
+    const price = parseFloat(priceText.replace(/[^0-9.]/g, ""));
+
+    //Eliminandolo del DOM
+    li.remove();
+
+    //Actualizando contadores
+    amountProducts--;
+    amountPrices -= price;
+
+    cartCounter.textContent = amountProducts;
+    cartCounterNavBar.textContent = amountProducts;
+    totalCounter.textContent = amountPrices.toLocaleString("es-CO",
+    {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    });
+}
+
+//====== FUNCIONAMIENTO CANTIDADES ======
+
+listAddProducts.addEventListener("click", (e) =>
+{
+    if (e.target.closest(".add__button-delete"))
+    {
+        deleteProduct(e);
+    }
+});
