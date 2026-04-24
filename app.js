@@ -37,7 +37,7 @@ function createCartItem(icon, title, price)
     const numericPrice = parseFloat(price.replace(/[^0-9.]/g, ""));
 
     const li = createElement("li", "add__container");
-    li.dataset.price = numericPrice; // 💥 guardamos el precio real
+    li.dataset.price = numericPrice; //Guardando el precio real
 
     const item = createElement("div", "add__item");
 
@@ -52,7 +52,7 @@ function createCartItem(icon, title, price)
     const quantities = createElement("div", "add__quantities");
 
     const btnMinus = createElement("button", "add__button", "-");
-    btnMinus.disabled = true; // 👈 inicia deshabilitado
+    btnMinus.disabled = true; //El booton inicia deshabilitado
 
     const counter = createElement("p", "add__counter", "1");
 
@@ -83,11 +83,41 @@ function addCartButtonWorks(e)
     const priceText = card.querySelector(".product__price").textContent;
     const price = parseFloat(priceText.replace(/[^0-9.]/g, ""));
 
+    // 🔍 1. Buscar si el producto ya existe en el carrito
+    const existingItem = [...listAddProducts.children].find((li) =>
+    {
+        return li.querySelector(".add__title").textContent === title;
+    });
+
+    // 🧠 2. SI EXISTE → aumentar cantidad
+    if (existingItem)
+    {
+        const counterElement = existingItem.querySelector(".add__counter");
+        const btnMinus = existingItem.querySelectorAll(".add__button")[0];
+
+        let quantity = parseInt(counterElement.textContent);
+
+        quantity++;
+        counterElement.textContent = quantity;
+
+        // activar botón "-"
+        btnMinus.disabled = false;
+
+        // actualizar contadores globales
+        amountProducts++;
+        amountPrices += price;
+
+        updateUI();
+
+        return; //Saliendo para NO crear duplicado
+    }
+
+    // 🆕 3. SI NO EXISTE → crear nuevo item
     const cartItem = createCartItem(icon, title, priceText);
 
     listAddProducts.appendChild(cartItem);
 
-    updateCounters(price);    
+    updateCounters(price);
 }
 
 
