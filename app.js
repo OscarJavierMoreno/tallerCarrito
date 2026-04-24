@@ -34,7 +34,10 @@ function createElement(tag, className, text)
 
 function createCartItem(icon, title, price)
 {
+    const numericPrice = parseFloat(price.replace(/[^0-9.]/g, ""));
+
     const li = createElement("li", "add__container");
+    li.dataset.price = numericPrice; // 💥 guardamos el precio real
 
     const item = createElement("div", "add__item");
 
@@ -49,7 +52,10 @@ function createCartItem(icon, title, price)
     const quantities = createElement("div", "add__quantities");
 
     const btnMinus = createElement("button", "add__button", "-");
+    btnMinus.disabled = true; // 👈 inicia deshabilitado
+
     const counter = createElement("p", "add__counter", "1");
+
     const btnPlus = createElement("button", "add__button", "+");
 
     const btnDelete = createElement("button", "add__button-delete");
@@ -57,8 +63,6 @@ function createCartItem(icon, title, price)
     const trashIcon = document.createElement("i");
     trashIcon.classList.add("fa-solid", "fa-trash-can");
 
-
-    //Armando la estructura
     btnDelete.appendChild(trashIcon);
 
     quantities.append(btnMinus, counter, btnPlus);
@@ -77,7 +81,7 @@ function addCartButtonWorks(e)
     const icon = card.querySelector(".product__product").textContent;
     const title = card.querySelector(".product__info-title").textContent;
     const priceText = card.querySelector(".product__price").textContent;
-    const price = parseFloat(priceText.replace("$", ""));
+    const price = parseFloat(priceText.replace(/[^0-9.]/g, ""));
 
     const cartItem = createCartItem(icon, title, priceText);
 
@@ -110,19 +114,26 @@ function deleteProduct(e)
 {
     const li = e.target.closest(".add__container");
 
-    //Capturando precio del producto
-    const priceText = li.querySelector(".add__price").textContent;
-    const price = parseFloat(priceText.replace(/[^0-9.]/g, ""));
+    const price = parseFloat(li.dataset.price);
 
-    //Eliminandolo del DOM
+    //Obteniendo la cantidad real
+    const quantity = parseInt(li.querySelector(".add__counter").textContent);
+
+    //Eliminando del DOM
     li.remove();
 
-    //Actualizando contadores
-    amountProducts--;
-    amountPrices -= price;
+    //Restando correctamente
+    amountProducts -= quantity;
+    amountPrices -= price * quantity;
 
+    updateUI();
+}
+
+function updateUI()
+{
     cartCounter.textContent = amountProducts;
     cartCounterNavBar.textContent = amountProducts;
+
     totalCounter.textContent = amountPrices.toLocaleString("es-CO",
     {
         minimumFractionDigits: 2,
@@ -131,11 +142,63 @@ function deleteProduct(e)
 }
 
 //====== FUNCIONAMIENTO CANTIDADES ======
+function handleQuantity(e)
+{
+    const button = e.target;
+    const li = button.closest(".add__container");
+
+    const counterElement = li.querySelector(".add__counter");
+    const btnMinus = li.querySelectorAll(".add__button")[0];
+    const btnPlus = li.querySelectorAll(".add__button")[1];
+
+    let quantity = parseInt(counterElement.textContent);
+
+    const price = parseFloat(li.dataset.price);
+
+    // BOTÓN +
+    if (button.textContent === "+")
+    {
+        quantity++;
+        amountProducts++;
+        amountPrices += price;
+    }
+
+    // BOTÓN -
+    if (button.textContent === "-")
+    {
+        if (quantity > 1)
+        {
+            quantity--;
+            amountProducts--;
+            amountPrices -= price;
+        }
+    }
+
+    // Actualizar cantidad visual
+    counterElement.textContent = quantity;
+
+    // 🔥 CONTROL DEL BOTÓN "-"
+    if (quantity <= 1)
+    {
+        btnMinus.disabled = true;
+    }
+    else
+    {
+        btnMinus.disabled = false;
+    }
+
+    updateUI();
+}
 
 listAddProducts.addEventListener("click", (e) =>
 {
     if (e.target.closest(".add__button-delete"))
     {
         deleteProduct(e);
+    }
+
+    if (e.target.classList.contains("add__button"))
+    {
+        handleQuantity(e);
     }
 });

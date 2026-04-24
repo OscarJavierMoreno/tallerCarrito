@@ -329,6 +329,11 @@ body {
     cursor: pointer;
 }
 
+.add__button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
 .add__counter {
     font-weight: bold;
     font-size: 1.2rem;
