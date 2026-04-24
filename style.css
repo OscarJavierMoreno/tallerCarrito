@@ -3,6 +3,7 @@
     --color-letter-a: #eeeeee;
     --color-a: #5524a4;
     --color-b: #723bc9;
+    --color-c: #1d1d1d;
     --background-color: #0e0916;
     --box-shadow: 0 0 15px 0 #4800bb;
 }
@@ -117,7 +118,7 @@ body {
 .product__bg {
     width: 100%;
     height: 50%;
-    background-color: #1d1d1d;
+    background-color: var(--color-c);
     border-radius: 15px 15px 0 0;
     display: flex;
 }
@@ -175,7 +176,7 @@ body {
 /* --------- CARRITO DE COMPRAS ---------- */
 .cart {
     width: 30%;
-    height: 100%;
+    height: 90vh;
     padding: 25px;
     position: sticky;
     top: 0;
@@ -249,6 +250,100 @@ body {
 }
 
 
+/* --------- PRODUCTOS AGREGADOS ---------- */
+.add {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+}
+
+.add__container {
+    width: 100%;
+    height: 110px;
+    display: flex;
+    justify-content: space-between;
+    padding: 8px;
+    margin-top: 30px;
+    border-radius: 20px;
+    box-shadow: 0 0 15px 0 #af7eff;
+}
+
+.add__item {
+    display: flex;
+}
+
+.add__img {
+    width: 100px;
+    height: 100%;
+    background-color: var(--color-c);
+    display: flex;
+    border-radius: 15px;
+    margin-right: 15px;
+}
+
+.add__icon {
+    margin: auto;
+    font-size: 2.2rem;
+}
+
+.add__info {
+    display: flex;
+    flex-direction: column;
+    gap: 11px;  
+}
+
+.add__title {
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.add__price {
+    font-weight: bold;
+    color: var(--color-a);
+    font-size: 1.1rem;
+}
+
+.add__quantities {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.add__button {
+    background-color: #cfcfcf;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+.add__button:hover {
+    background-color: var(--color-b);
+    cursor: pointer;
+}
+
+.add__counter {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.add__button-delete {
+    background-color: transparent;
+    border: none;
+    align-self: end;
+    font-size: 1.3rem;
+    margin-right: 15px;
+    margin-bottom: 10px;
+    color: var(--color-a);
+}
+
+.add__button-delete:hover {
+    color: #c9001b;
+    cursor: pointer;
+}
+
+
 /* -------- TOTAL PRECIO --------- */
 .total {
     background-color: #e6e6ff;
@@ -258,7 +353,7 @@ body {
     padding: 15px 20px;
     border-radius: 15px;
     border: 2px solid #dccfff;
-    margin-top: 20px;
+    margin-top: 30px;
     margin-bottom: 10px;
 }
 
