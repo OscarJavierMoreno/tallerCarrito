@@ -15,6 +15,9 @@ const cartCounterNavBar = document.getElementById("cartCounterNavBar");
 //Captando el contador del carrito
 const totalCounter = document.getElementById("totalCounter");
 
+//Captando el boton de finalizar compra
+const completePurchase = document.getElementById("completePurchase");
+
 
 //====== VARIABLES ======
 let amountProducts = 0;
@@ -83,13 +86,13 @@ function addCartButtonWorks(e)
     const priceText = card.querySelector(".product__price").textContent;
     const price = parseFloat(priceText.replace(/[^0-9.]/g, ""));
 
-    // 🔍 1. Buscar si el producto ya existe en el carrito
+    //1. Buscar si el producto ya existe en el carrito
     const existingItem = [...listAddProducts.children].find((li) =>
     {
         return li.querySelector(".add__title").textContent === title;
     });
 
-    // 🧠 2. SI EXISTE → aumentar cantidad
+    //2. SI EXISTE → aumentar cantidad
     if (existingItem)
     {
         const counterElement = existingItem.querySelector(".add__counter");
@@ -110,7 +113,7 @@ function addCartButtonWorks(e)
         return; //Saliendo para NO crear duplicado
     }
 
-    // 🆕 3. SI NO EXISTE → crear nuevo item
+    //3. SI NO EXISTE → crear nuevo item
     const cartItem = createCartItem(icon, title, priceText);
 
     listAddProducts.appendChild(cartItem);
@@ -183,14 +186,14 @@ function handleQuantity(e)
 
     const price = parseFloat(li.dataset.price);
 
-    // BOTÓN +
+    //BOTÓN incrementl
     if (button.textContent === "+")
     {
         quantity++;
         amountPrices += price;
     }
 
-    // BOTÓN -
+    //BOTÓN decremento
     if (button.textContent === "-")
     {
         if (quantity > 1)
@@ -200,10 +203,10 @@ function handleQuantity(e)
         }
     }
 
-    // Actualizar cantidad visual
+    //Actualizando cantidad visual
     counterElement.textContent = quantity;
 
-    // 🔥 CONTROL DEL BOTÓN "-"
+    //CONTROL DEL BOTÓN "-"
     if (quantity <= 1)
     {
         btnMinus.disabled = true;
@@ -228,3 +231,35 @@ listAddProducts.addEventListener("click", (e) =>
         handleQuantity(e);
     }
 });
+
+
+//====== FUNCIONAMIENTO BOTON FINALIZAR COMPRA ======
+function handleCompletePurchase()
+{
+    //Validación: carrito vacío
+    if (amountProducts === 0)
+    {
+        alert("Tu carrito está vacío 🛒");
+        return;
+    }
+
+    //Preguntando si se desea finalizar la compra
+    const confirmPurchase = confirm("¿Deseas finalizar la compra?");
+
+    if (!confirmPurchase) return;
+
+    alert("✅ Compra finalizada con éxito");
+
+    //Limpiando el carrito
+    listAddProducts.innerHTML = "";
+
+    //Reseteaando variables
+    amountProducts = 0;
+    amountPrices = 0;
+
+    //Actualizando la UI
+    updateUI();
+}
+
+//Evento dell boton
+completePurchase.addEventListener("click", handleCompletePurchase);
